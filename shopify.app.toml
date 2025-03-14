@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "938c43be3b1c89a0352190d6712e1278"
-application_url = "https://gentle-namely-hostel-forming.trycloudflare.com"
+application_url = "https://framed-underwear-china-flags.trycloudflare.com"
 embedded = true
 name = "clone-table-of-content"
 handle = "clone-table-of-content"
@@ -27,9 +27,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://gentle-namely-hostel-forming.trycloudflare.com/auth/callback",
-  "https://gentle-namely-hostel-forming.trycloudflare.com/auth/shopify/callback",
-  "https://gentle-namely-hostel-forming.trycloudflare.com/api/auth/callback"
+  "https://framed-underwear-china-flags.trycloudflare.com/auth/callback",
+  "https://framed-underwear-china-flags.trycloudflare.com/auth/shopify/callback",
+  "https://framed-underwear-china-flags.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]

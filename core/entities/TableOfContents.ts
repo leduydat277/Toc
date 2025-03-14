@@ -8,20 +8,18 @@ export interface Padding {
 
 export interface TitleSettings {
     content: string;
-    alignment: 'left' | 'center' | 'right';
-    fontSize: number;
-    color: string;
-    padding: Padding;
 }
-
+export interface TextAlignment {
+    alignment: 'left' | 'center' | 'right';
+}
 
 export type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
 export interface HeadingSettings {
     tag: HeadingTag[];
     numbering: 'numbers' | 'none' | 'bullets' | 'dots';
-    sectionLine: boolean;
-    indentation: boolean; // Thụt lề
+    isSectionLine: boolean;
+    isIndentation: boolean; // Thụt lề
     fontSize: number;
     color: string;
     padding: Padding;
@@ -29,31 +27,42 @@ export interface HeadingSettings {
 
 
 export interface AppearanceSettings {
-    scrollAnimation: boolean; // Hiệu ứng cuộn
+    isCcrollAnimation: boolean; // Hiệu ứng cuộn
     scrollOffset: number; // Độ lệch cuộn
-    padding: Padding;
     maxWidth: number; // Chiều rộng tối đa
     displayAlignment: 'center' | 'left' | 'right'; // Căn chỉnh hiển thị
 }
 
 // Button settings (nút bấm ẩn/hiện ToC)
 export interface ButtonSettings {
-    showHideButton: boolean;
+    isHideButton: boolean;
     hideButtonName: string;
+    hideButtonColor: string; // Màu cho nút ẩn
+
     showButtonName: string;
+    showButtonColor: string; // Màu cho nút hiện
+
     initialDisplayLines: number | null;
+
     showAllButtonName: string;
+    showAllButtonColor: string; // Màu cho nút hiển thị tất cả
+
 }
+
 
 // Link settings (cài đặt liên kết)
 export interface LinkSettings {
-    customLinkHover: boolean;
+    isCustomLinkHover: boolean; // Bật/tắt custom hover
+    linkColor: string; // Màu của liên kết
+    hoverColor: string; // Màu khi hover chuột vào liên kết
 }
+
 
 
 export interface TableOfContents {
     id: string;
     titleSettings: TitleSettings;
+    textAlignment: TextAlignment;
     headingSettings: HeadingSettings;
     appearanceSettings: AppearanceSettings;
     buttonSettings: ButtonSettings;
