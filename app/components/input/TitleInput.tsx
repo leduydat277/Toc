@@ -7,9 +7,6 @@ export const TitleInput = () => {
 
     const [title, setTitle] = useTOCStore((state) => [state.title, state.setTitle]);
     console.log('Title:', title);
-
-
-
     return (
         <TextField
             label="Table Of Contents Title"

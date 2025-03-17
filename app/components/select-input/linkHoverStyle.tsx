@@ -1,27 +1,22 @@
-import { Select } from '@shopify/polaris';
-import { useState, useCallback } from 'react';
+import { Select } from "@shopify/polaris";
+import { linkHoverStyleOptions } from "app/constant/options";
+import { useState, useCallback } from "react";
+import { useTOCStore } from "state/stores";
 
 export const LinkHoverStyle = () => {
-    const [selected, setSelected] = useState('none');
+    const [underlineStyle, setUnderlineStyle] = useTOCStore((state) => [
+        state.underlineStyle,
+        state.setUnderlineStyle,
+    ]);
 
-    const handleSelectChange = useCallback(
-        (value: string) => setSelected(value),
-        [],
-    );
-
-    const options = [
-        { label: 'None', value: 'none' },
-        { label: 'Underline (Solid)', value: 'solid' },
-        { label: 'Underline (Dotted)', value: 'dotted' },
-    ];
+    console.log("underlineStyle", underlineStyle);
 
     return (
         <Select
             label="Underline style for link (On hover)"
-            options={options}
-            onChange={handleSelectChange}
-            value={selected}
-
+            options={linkHoverStyleOptions}
+            onChange={setUnderlineStyle}
+            value={underlineStyle}
         />
     );
-}
+};

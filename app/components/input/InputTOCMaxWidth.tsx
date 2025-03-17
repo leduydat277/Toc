@@ -1,21 +1,17 @@
-import { TextField } from '@shopify/polaris';
-import { useState, useCallback } from 'react';
+import { TextField } from "@shopify/polaris";
+import { useTOCStore } from "../../../state/stores";
+import { parsePositiveNumber } from "app/hooks/numberConverter";
 
 export const InputTOCMaxWidth = () => {
-    const [value, setValue] = useState('0');
 
-    const handleChange = useCallback((newValue: string) => {
-        if (/^\d*$/.test(newValue)) {
-            setValue(newValue);
-        }
-    }, []);
-
+    const [maxWidth, setMaxWidth] = useTOCStore((state) => [state.maxWidth, state.setMaxWidth]);
+    console.log('maxWidth ', maxWidth)
     return (
         <TextField
             label="Max Width Of Table Of Contents"
             type="number"
-            value={value}
-            onChange={handleChange}
+            value={`${maxWidth}`}
+            onChange={(value) => setMaxWidth(parsePositiveNumber(value))}
             autoComplete="off"
             suffix="px"
         />

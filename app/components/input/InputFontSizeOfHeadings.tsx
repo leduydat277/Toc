@@ -1,20 +1,24 @@
 import { TextField } from '@shopify/polaris';
-import { useState, useCallback } from 'react';
+import { useTOCStore } from "../../../state/stores";
+import { parsePositiveNumber } from "app/hooks/numberConverter";
 
 export const InputFontSizeOfHeadings = () => {
-    const [value, setValue] = useState('3');
+    const [fontSizeHeading, setFontSizeHeading] = useTOCStore((state) => [
+        state.fontSizeHeading,
+        state.setFontSizeHeading,
+    ]);
 
-    const handleChange = useCallback((newValue: string) => {
-        if (/^\d*$/.test(newValue)) {
-            setValue(newValue);
-        }
-    }, []);
+    const handleChange = (value: string) => {
+        setFontSizeHeading(parsePositiveNumber(value));
+    };
+    console.log('fontSizeHeading', fontSizeHeading)
 
     return (
-        <TextField
+
+        < TextField
             label="Font size of headings"
             type="number"
-            value={value}
+            value={fontSizeHeading.toString()}
             onChange={handleChange}
             autoComplete="off"
             suffix="px"

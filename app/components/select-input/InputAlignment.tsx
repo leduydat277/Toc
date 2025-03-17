@@ -1,26 +1,18 @@
 import { Select } from '@shopify/polaris';
 import { useState, useCallback } from 'react';
+import { alignmentOptions } from '../../constant/options'
+import { useTOCStore } from "../../../state/stores";
 
 export const InputAlignment = () => {
-    const [selected, setSelected] = useState('center');
+    const [alignment, setAlignment] = useTOCStore((state) => [state.alignment, state.setAlignment]);
 
-    const handleSelectChange = useCallback(
-        (value: string) => setSelected(value),
-        [],
-    );
-
-    const options = [
-        { label: 'Left', value: 'left' },
-        { label: 'Center', value: 'center' },
-        { label: 'Right', value: 'right' },
-    ];
-
+    console.log('alignment', alignment)
     return (
         <Select
             label="Alignment"
-            options={options}
-            onChange={handleSelectChange}
-            value={selected}
+            options={alignmentOptions}
+            onChange={setAlignment}
+            value={alignment}
             helpText='Available when the display area is larger than max width of the table of contents'
         />
     );

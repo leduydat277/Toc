@@ -1,21 +1,16 @@
-import { TextField } from '@shopify/polaris';
-import { useState, useCallback } from 'react';
+import { TextField } from "@shopify/polaris";
+import { useTOCStore } from "../../../../state/stores";
+import { parsePositiveNumber } from "app/hooks/numberConverter";
 
 export const PaddingRight = () => {
-    const [value, setValue] = useState('0');
-
-    const handleChange = useCallback((newValue: string) => {
-        if (/^\d*$/.test(newValue)) {
-            setValue(newValue);
-        }
-    }, []);
-
+    const [padding, setPaddingRight] = useTOCStore((state) => [state.padding, state.setPaddingRight]);
+    console.log('padding setPaddingright', padding.right)
     return (
         <TextField
             label="Padding Right"
             type="number"
-            value={value}
-            onChange={handleChange}
+            value={`${padding.right}`}
+            onChange={(value) => setPaddingRight(parsePositiveNumber(value))}
             autoComplete="off"
             suffix="px"
         />

@@ -1,9 +1,10 @@
 import { BlockStack, Checkbox, Text } from '@shopify/polaris';
 import { useState } from 'react';
+import { useTOCStore } from "../../../state/stores";
 
 export const HeadingCheckboxGroup = () => {
-    const [selectedHeadings, setSelectedHeadings] = useState<string[]>([]);
-
+    const [tag, setTag] = useTOCStore((state) => [state.tag, state.setTag]);
+    const [selectedHeadings, setSelectedHeadings] = useState<string[]>(['h1']);
     const headings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
     const handleCheckboxChange = (heading: string) => {
@@ -13,13 +14,14 @@ export const HeadingCheckboxGroup = () => {
                 : [...prev, heading]
         );
     };
-    console.log(selectedHeadings);
+    setTag(selectedHeadings)
+
 
 
     return (
         <>
             <Text >Headings</Text>
-            <BlockStack vertical>
+            <BlockStack >
                 {headings.map((heading) => (
                     <Checkbox
                         key={heading}

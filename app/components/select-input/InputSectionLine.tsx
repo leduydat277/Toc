@@ -1,25 +1,21 @@
 import { Select } from '@shopify/polaris';
-import { useState, useCallback } from 'react';
+import { sectionLineOptions } from 'app/constant/options';
+
+import { useTOCStore } from "../../../state/stores";
 
 export const InputSectionLine = () => {
-    const [selected, setSelected] = useState('off');
+    const [isSectionLine, setIsSectionLine] = useTOCStore((state) => [state.isSectionLine, state.setIsSectionLine]);
+    console.log("isSectionLine", isSectionLine);
 
-    const handleSelectChange = useCallback(
-        (value: string) => setSelected(value),
-        [],
-    );
 
-    const options = [
-        { label: 'Off', value: 'off' },
-        { label: 'On', value: 'on' },
-    ];
+
 
     return (
         <Select
             label="Section Line"
-            options={options}
-            onChange={handleSelectChange}
-            value={selected}
+            options={sectionLineOptions}
+            onChange={(selected) => setIsSectionLine(selected === 'true')}
+            value={isSectionLine ? 'true' : 'false'}
         />
     );
 }

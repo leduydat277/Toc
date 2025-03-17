@@ -1,26 +1,17 @@
 import { Select } from '@shopify/polaris';
 import { useState, useCallback } from 'react';
+import { alignmentOptions } from '../../constant/options'
+import { useTOCStore } from "../../../state/stores";
 
 export const InputTextAlignment = () => {
-    const [selected, setSelected] = useState('left');
-
-    const handleSelectChange = useCallback(
-        (value: string) => setSelected(value),
-        [],
-    );
-
-    const options = [
-        { label: 'Left', value: 'left' },
-        { label: 'Center', value: 'center' },
-        { label: 'Right', value: 'right' },
-    ];
-
+    const [setTextAlignment, textAlignment] = useTOCStore((state) => [state.setTextAlignment, state.textAlignment]);
+    console.log('textAlignment', textAlignment)
     return (
         <Select
             label="Text alignment"
-            options={options}
-            onChange={handleSelectChange}
-            value={selected}
+            options={alignmentOptions}
+            onChange={setTextAlignment}
+            value={textAlignment}
             helpText="Specifies the horizontal alignment of text. If you specify other than left-alignment, indentation and numbering will be disabled."
         />
     );

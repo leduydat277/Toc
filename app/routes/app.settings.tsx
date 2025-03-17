@@ -9,6 +9,7 @@ import {
     Divider,
     SkeletonBodyText,
     TextField,
+    FormLayout,
 } from "@shopify/polaris";
 import styles from "./../styles/sticky-right.module.scss";
 import { TitleBar } from "@shopify/app-bridge-react";
@@ -57,7 +58,7 @@ function Settings() {
             <InlineGrid columns={{ xs: 1, md: "2fr 1fr" }} gap="400">
                 <BlockStack gap="400">
                     <Card roundedAbove="sm">
-                        <BlockStack gap="400">
+                        <FormLayout>
                             <TitleInput />
                             <InputTextAlignment />
                             <InputIndentation />
@@ -80,7 +81,7 @@ function Settings() {
                             <LinkHover />
                             <ShowBtnName />
                             <HideBtnName />
-                        </BlockStack>
+                        </FormLayout>
                     </Card>
                 </BlockStack>
 

@@ -14,6 +14,11 @@ type Padding = {
     left: number;
     right: number;
 };
+type Color = {
+    hue: number;
+    saturation: number;
+    brightness: number;
+}
 
 type TOC = {
     title: string;
@@ -24,10 +29,17 @@ type TOC = {
     colorHeading: string;
     padding: Padding;
 
+    backgroundColor: string;
+    borderColor: string;
+    sectionLineColor: string;
+    titleColor: string;
+
+
     tag: string[];
     numbering: "numbers" | "none";
     isIndentation: boolean;
     isSectionLine: boolean;
+    fontSizeHeading: number;
 
     maxWidth: number;
     displayAlignment: "left" | "center" | "right";
@@ -48,6 +60,7 @@ type TOC = {
     isCustomLinkHover: boolean;
     linkColor: string;
     hoverColor: string;
+    underlineStyle: "solid" | "none" | "dotted";
 };
 
 type TOCStore = TOC & {
@@ -58,6 +71,11 @@ type TOCStore = TOC & {
     setTextAlignment: (textAlignment: TOC["textAlignment"]) => void;
     setFontSize: (fontSize: number) => void;
     setColorHeading: (colorHeading: string) => void;
+    setBackgroundColor: (backgroundColor: string) => void;
+    setBorderColor: (borderColor: string) => void;
+    setSectionLineColor: (sectionLineColor: string) => void;
+    setTitleColor: (titleColor: string) => void;
+    setFontSizeHeading: (fontSizeHeading: number) => void;
     setPaddingTop: (paddingTop: number) => void;
     setPaddingBottom: (paddingBottom: number) => void;
     setPaddingLeft: (paddingLeft: number) => void;
@@ -82,6 +100,7 @@ type TOCStore = TOC & {
     setIsCustomLinkHover: (isCustomLinkHover: boolean) => void;
     setLinkColor: (linkColor: string) => void;
     setHoverColor: (hoverColor: string) => void;
+    setUnderlineStyle: (underlineStyle: TOC["underlineStyle"]) => void;
 };
 
 export const initTOC: TOC = {
@@ -93,10 +112,16 @@ export const initTOC: TOC = {
     colorHeading: "#000000",
     padding: { top: 0, bottom: 0, left: 0, right: 0 },
 
+    backgroundColor: 'rgb(255, 255, 255)',
+    borderColor: 'rgb(0, 0, 0)',
+    sectionLineColor: 'rgb(0, 0, 0)',
+    titleColor: 'rgb(0, 0, 0)',
+
     tag: [],
     numbering: "numbers",
     isIndentation: false,
     isSectionLine: true,
+    fontSizeHeading: 14,
 
     maxWidth: 0,
     displayAlignment: "center",
@@ -106,17 +131,18 @@ export const initTOC: TOC = {
 
     showHideButton: true,
     isHideButton: true,
-    hideButtonName: "hide",
-    showButtonName: "show",
-    showAllButtonName: "show all",
+    hideButtonName: "Hide",
+    showButtonName: "Show",
+    showAllButtonName: "Show all",
     initialDisplayLines: 1,
-    hideButtonColor: "#000000",
-    showButtonColor: "#000000",
-    showAllButtonColor: "#000000",
+    hideButtonColor: "rgb(0, 0, 0)",
+    showButtonColor: "rgb(0, 0, 0)",
+    showAllButtonColor: "rgb(0, 0, 0)",
 
     isCustomLinkHover: false,
-    linkColor: "#000000",
-    hoverColor: "#000000",
+    linkColor: "rgb(0, 0, 0)",
+    hoverColor: "rgb(0, 0, 0)",
+    underlineStyle: "solid",
 };
 
 export const useTOCStore = createWithEqualityFn<TOCStore>()(
@@ -155,6 +181,7 @@ export const useTOCStore = createWithEqualityFn<TOCStore>()(
                     set((state) => {
                         state.padding.bottom = paddingBottom;
                     }),
+
                 setPaddingLeft: (paddingLeft) =>
                     set((state) => {
                         state.padding.left = paddingLeft;
@@ -178,6 +205,14 @@ export const useTOCStore = createWithEqualityFn<TOCStore>()(
                 setIsSectionLine: (isSectionLine) =>
                     set((state) => {
                         state.isSectionLine = isSectionLine;
+                    }),
+                setFontSizeHeading: (fontSizeHeading) =>
+                    set((state) => {
+                        state.fontSizeHeading = fontSizeHeading;
+                    }),
+                setBackgroundColor: (backgroundColor) =>
+                    set((state) => {
+                        state.backgroundColor = backgroundColor;
                     }),
                 setMaxWidth: (maxWidth) =>
                     set((state) => {
@@ -223,6 +258,18 @@ export const useTOCStore = createWithEqualityFn<TOCStore>()(
                     set((state) => {
                         state.hideButtonColor = hideButtonColor;
                     }),
+                setBorderColor: (borderColor) =>
+                    set((state) => {
+                        state.borderColor = borderColor;
+                    }),
+                setSectionLineColor: (sectionLineColor) =>
+                    set((state) => {
+                        state.sectionLineColor = sectionLineColor;
+                    }),
+                setTitleColor: (titleColor) =>
+                    set((state) => {
+                        state.titleColor = titleColor;
+                    }),
                 setShowButtonColor: (showButtonColor) =>
                     set((state) => {
                         state.showButtonColor = showButtonColor;
@@ -243,6 +290,11 @@ export const useTOCStore = createWithEqualityFn<TOCStore>()(
                     set((state) => {
                         state.hoverColor = hoverColor;
                     }),
+                setUnderlineStyle: (underlineStyle) =>
+                    set((state) => {
+                        state.underlineStyle = underlineStyle;
+                    })
+
             })),
         ),
     ),
