@@ -4,7 +4,7 @@ import { parsePositiveNumber } from "app/hooks/numberConverter";
 
 export const PaddingRight = () => {
     const [padding, setPaddingRight] = useTOCStore((state) => [state.padding, state.setPaddingRight]);
-    console.log('padding setPaddingright', padding.right)
+    console.log('padding setPaddingright', padding?.right)
     return (
         <TextField
             label="Padding Right"

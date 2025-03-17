@@ -4,39 +4,30 @@ import {
     Page,
     BlockStack,
     InlineGrid,
-    SkeletonDisplayText,
-    Bleed,
-    Divider,
     SkeletonBodyText,
-    TextField,
-    FormLayout,
 } from "@shopify/polaris";
 import styles from "./../styles/sticky-right.module.scss";
-import { TitleBar } from "@shopify/app-bridge-react";
-import { TitleInput } from "app/components/input/TitleInput";
-import { InputTextAlignment } from "app/components/select-input/InputTextAlignment";
-import { InputIndentation } from "app/components/select-input/InputIndentation";
-import { HeadingCheckboxGroup } from "app/components/checkbox/HeadingCheckboxGroup";
-import { ScrollCheckbox } from "app/components/checkbox/ScrollCheckbox";
-import { InputNumbering } from "app/components/select-input/InputNumbering";
-import { InputSectionLine } from "app/components/select-input/InputSectionLine";
-import { NumberFieldWithStepper } from "app/components/input/InputScrollOffset";
-import { GroupPadding } from "app/components/input/input-padding/GroupPadding";
-import { InputFontSIzeOfTitle } from "app/components/input/InputFontSIzeOfTitle";
-import { InputFontSizeOfHeadings } from "app/components/input/InputFontSizeOfHeadings";
-import { InputTOCMaxWidth } from "app/components/input/InputTOCMaxWidth";
-import { InputAlignment } from "app/components/select-input/InputAlignment";
-import { GroupColor } from "app/components/color-picker/GroupColor";
-import { LinkHoverStyle } from "app/components/select-input/linkHoverStyle";
-import { ToggleButton } from "app/components/checkbox/ToggleButton";
-import { InputHideBtn } from "app/components/input/InputHideBtn";
-import { InputShowBtn } from "app/components/input/InputShowBtn";
-import { ShowAllButton } from "app/components/input/InputShowAllButton";
-import { LinkHover } from "app/components/color-picker/LinkHover";
-import { ShowBtnName } from "app/components/color-picker/ShowBtnName";
-import { HideBtnName } from "app/components/color-picker/HideBtnName";
+import { SaveBar, useAppBridge } from "@shopify/app-bridge-react";
+import { Preview } from "app/components/preview";
+import { TOCForm } from "app/components/toc-form";
+import { useSubscribeToAllChanges } from "state/stores/use-save-bar-store";
+import { useTOCStore } from "state/stores";
 
 function Settings() {
+    const { hasChanged, setHasChanged } = useSubscribeToAllChanges();
+    const resetState = useTOCStore.getState().resetState
+
+    console.log('hasChanged', hasChanged)
+    const shopify = useAppBridge();
+    const onSave = () => {
+
+    }
+    const onDiscard = () => {
+        resetState()
+        setHasChanged(false);
+        shopify.saveBar.hide('my-save-bar')
+
+    }
     const SkeletonLabel = (props) => {
         return (
             <Box
@@ -48,48 +39,33 @@ function Settings() {
             />
         );
     };
+    if (hasChanged === true) {
+        shopify.saveBar.show('my-save-bar')
+    }
     return (
         <Page
             backAction={{ content: "Customize the table of contents", url: "/app" }}
             title="Customize the table of contents"
-
-
         >
+
+            <>
+                <SaveBar id="my-save-bar">
+                    <button variant="primary" onClick={onSave}></button>
+                    <button onClick={onDiscard} ></button>
+                </SaveBar>
+            </>
             <InlineGrid columns={{ xs: 1, md: "2fr 1fr" }} gap="400">
                 <BlockStack gap="400">
                     <Card roundedAbove="sm">
-                        <FormLayout>
-                            <TitleInput />
-                            <InputTextAlignment />
-                            <InputIndentation />
-                            <InputNumbering />
-                            <InputSectionLine />
-                            <HeadingCheckboxGroup />
-                            <ScrollCheckbox />
-                            <NumberFieldWithStepper />
-                            <InputFontSIzeOfTitle />
-                            <InputFontSizeOfHeadings />
-                            <GroupPadding />
-                            <InputTOCMaxWidth />
-                            <InputAlignment />
-                            <GroupColor />
-                            <LinkHoverStyle />
-                            <ToggleButton />
-                            <InputHideBtn />
-                            <InputShowBtn />
-                            <ShowAllButton />
-                            <LinkHover />
-                            <ShowBtnName />
-                            <HideBtnName />
-                        </FormLayout>
+
+                        <TOCForm />
                     </Card>
                 </BlockStack>
 
-
-                <BlockStack gap={{ xs: "400", md: "200" }} >
+                <BlockStack gap={{ xs: "400", md: "200" }}>
                     <div className={styles.stickyRight}>
                         <Card roundedAbove="sm">
-                            <BlockStack gap="400">
+                            {/* <BlockStack gap="400">
                                 <SkeletonDisplayText size="small" />
                                 <Box border="divider" borderRadius="base" minHeight="2rem" />
                                 <Box>
@@ -100,10 +76,11 @@ function Settings() {
                                 <SkeletonLabel />
                                 <Divider />
                                 <SkeletonBodyText />
-                            </BlockStack>
+                            </BlockStack> */}
+                            <Preview />
                         </Card>
                         <div className={styles.cardItem}>
-                            <Card roundedAbove="sm" >
+                            <Card roundedAbove="sm">
                                 <BlockStack gap="400">
                                     <SkeletonLabel />
                                     <Box border="divider" borderRadius="base" minHeight="2rem" />
@@ -116,10 +93,9 @@ function Settings() {
                         </div>
                     </div>
                 </BlockStack>
-
             </InlineGrid>
         </Page>
-    )
+    );
 }
 
-export default Settings
+export default Settings;
