@@ -7,8 +7,11 @@ import {
 } from "@remix-run/node";
 import { isbot } from "isbot";
 import { addDocumentResponseHeaders } from "./shopify.server";
+import { connectDB } from "./../infrastructure/db/connect-db";
 
 export const streamTimeout = 5000;
+
+connectDB();
 
 export default async function handleRequest(
   request: Request,
