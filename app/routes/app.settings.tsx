@@ -12,12 +12,27 @@ import { SaveBar, useAppBridge } from "@shopify/app-bridge-react";
 import { TOCForm } from "app/components/toc-form";
 import { useSubscribeToAllChanges } from "state/stores/use-save-bar-store";
 import { useTOCStore } from "state/stores";
-import { useNavigate } from "@remix-run/react";
+import { useLoaderData, useNavigate } from "@remix-run/react";
 import { PreviewTOC } from "app/components/preview/Index";
+import { authenticate } from "app/shopify.server";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { TableOfContentsRepositoryImpl } from "infrastructure/repositories/TableOfContentsRepositoryImpl";
+import { GetTableOfContents } from "core/use-cases  /getTableOfContents";
+import { MockTableOfContentsRepository } from "infrastructure/repositories/MockTableOfContentsRepository";
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+    await authenticate.admin(request);
+    const repository = new MockTableOfContentsRepository();
+    const getTableOfContents = new GetTableOfContents(repository);
+    const id = '5';
+    const tableOfContents = await getTableOfContents.execute(id);
+    return { tableOfContents };
+}
 
 
 
 function Settings() {
+    const { tableOfContents } = useLoaderData<typeof loader>();
+    console.log("tableOfContents", tableOfContents);
     const { hasChanged, setHasChanged } = useSubscribeToAllChanges();
     const resetState = useTOCStore.getState().resetState;
     const navigate = useNavigate();
