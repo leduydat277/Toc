@@ -1,4 +1,3 @@
-
 export interface Padding {
     top: number;
     bottom: number;
@@ -6,9 +5,8 @@ export interface Padding {
     right: number;
 }
 
-export interface TitleSettings {
-    content: string;
-}
+
+
 export interface TextAlignment {
     alignment: 'left' | 'center' | 'right';
 }
@@ -17,7 +15,7 @@ export type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
 export interface HeadingSettings {
     tag: HeadingTag[];
-    numbering: 'numbers' | 'none' | 'bullets' | 'dots';
+    numbering: 'numbers' | 'none' | 'bullets' | 'disc';
     isSectionLine: boolean;
     isIndentation: boolean; // Thụt lề
     fontSize: number;
@@ -25,15 +23,13 @@ export interface HeadingSettings {
     padding: Padding;
 }
 
-
 export interface AppearanceSettings {
-    isCcrollAnimation: boolean; // Hiệu ứng cuộn
+    isScrollAnimation: boolean; // Hiệu ứng cuộn (Sửa lỗi chính tả)
     scrollOffset: number; // Độ lệch cuộn
     maxWidth: number; // Chiều rộng tối đa
     displayAlignment: 'center' | 'left' | 'right'; // Căn chỉnh hiển thị
 }
 
-// Button settings (nút bấm ẩn/hiện ToC)
 export interface ButtonSettings {
     isHideButton: boolean;
     hideButtonName: string;
@@ -46,22 +42,17 @@ export interface ButtonSettings {
 
     showAllButtonName: string;
     showAllButtonColor: string; // Màu cho nút hiển thị tất cả
-
 }
 
-
-// Link settings (cài đặt liên kết)
 export interface LinkSettings {
     isCustomLinkHover: boolean; // Bật/tắt custom hover
     linkColor: string; // Màu của liên kết
     hoverColor: string; // Màu khi hover chuột vào liên kết
 }
 
-
-
 export interface TableOfContents {
     id: string;
-    titleSettings: TitleSettings;
+    title: string;
     textAlignment: TextAlignment;
     headingSettings: HeadingSettings;
     appearanceSettings: AppearanceSettings;
@@ -71,8 +62,6 @@ export interface TableOfContents {
     updatedAt: Date;
 
     // methods
-    getTableOfContents(): TableOfContents;
-    updateTableOfContents(data: Partial<TableOfContents>): void;
-
+    getTableOfContents(): Promise<TableOfContents>;
+    updateTableOfContents(data: Partial<TableOfContents>): Promise<void>;
 }
-
