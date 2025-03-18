@@ -1,96 +1,113 @@
 import { useState } from "react";
 import { useTOCStore } from "state/stores";
-
+import { Text } from "@shopify/polaris";
+import styles from "../../styles/toc-preview.module.scss";
 
 export const PreviewTOC = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const toc = useTOCStore((state) => state);
 
-  return (
-    <div
-      style={{
-        backgroundColor: toc.backgroundColor,
-        borderColor: toc.borderColor,
-        borderStyle: "solid",
-        textAlign: toc.alignment,
-        maxWidth: toc.maxWidth ? `${toc.maxWidth}px` : "auto",
-        padding: `${toc.padding.top}px ${toc.padding.right}px ${toc.padding.bottom}px ${toc.padding.left}px`,
-      }}
-    >
 
-      <h2
+  return (
+    <div className={styles.container}>
+      <Text as="h6" fontWeight="bold">
+        A table of contents in the style below will be inserted into the template.
+      </Text>
+
+      <div
+        className={styles.tocContainer}
         style={{
-          color: toc.titleColor,
-          fontSize: toc.fontSizeHeading,
-          textAlign: toc.textAlignment,
+          backgroundColor: toc.backgroundColor,
+          border: `1px solid ${toc.borderColor}`,
+          textAlign: toc.alignment,
+          maxWidth: toc.maxWidth ? `${toc.maxWidth}px` : "100%",
+          padding: `${toc.padding.top}px ${toc.padding.right}px ${toc.padding.bottom}px ${toc.padding.left}px`,
         }}
       >
-        {toc.title}
-      </h2>
+        <h2
+          className={styles.tocTitle}
+          style={{
+            color: toc.titleColor,
+            textAlign: toc.textAlignment,
+            fontSize: `${toc.fontSize}px`,
+          }}
+        >
+          {toc.title}
+        </h2>
 
-
-      <ul style={{ listStyleType: toc.numbering === "numbers" ? "decimal" : "none" }}>
-        {toc.tag.map((item, index) => (
-          <li
-            key={index}
-            style={{
-              color: toc.colorHeading,
-              fontSize: toc.fontSize,
-              paddingLeft: toc.isIndentation ? "20px" : "0px",
-              borderBottom: toc.isSectionLine ? `1px solid ${toc.sectionLineColor}` : "none",
-            }}
-          >
-            Heading {item}
-            <a
-              href={item.link}
+        {!isCollapsed && (
+          <ul className={styles.tocList} style={{ listStyleType: toc.numbering }}>
+            {toc.tag.map((item, index) => (
+              <li
+                key={index}
+                className={styles.tocItem}
+                style={{
+                  color: toc.colorHeading,
+                  fontSize: `${toc.fontSizeHeading}px`,
+                  paddingLeft: toc.isIndentation ? "20px" : "0px",
+                  borderBottom: toc.isSectionLine ? `1px solid ${toc.sectionLineColor}` : "none",
+                }}
+              >
+                <a
+                  href={item?.link}
+                  className={styles.tocLink}
+                  style={{
+                    color: toc.linkColor,
+                    textDecoration: toc.underlineStyle,
+                  }}
+                  onMouseEnter={(e) => {
+                    if (toc.isCustomLinkHover) e.target.style.color = toc.hoverColor;
+                  }}
+                  onMouseLeave={(e) => {
+                    if (toc.isCustomLinkHover) e.target.style.color = toc.linkColor;
+                  }}
+                >
+                  heading {item}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+        {toc.isHideButton && (
+          <>
+            <button
+              monochrome
+              outline
+              size="slim"
+              className={styles.toggleButton}
               style={{
-                color: toc.linkColor,
-                textDecoration: toc.underlineStyle,
-              }}
-              onMouseEnter={(e) => {
-                if (toc.isCustomLinkHover) e.target.style.color = toc.hoverColor;
-              }}
-              onMouseLeave={(e) => {
-                if (toc.isCustomLinkHover) e.target.style.color = toc.linkColor;
+                color: toc.showButtonColor,
               }}
             >
-              {item.label}
-            </a>
-          </li>
+              {toc.showButtonName}
+            </button>
+            <button
+              size="slim"
+              style={{
+                color: toc.hideButtonColor,
+              }}
+              className={styles.toggleButton}
+            >
+              {toc.hideButtonName}
+            </button>
+          </>
+        )}
 
-        ))}
-      </ul>
 
-      {/* Nút Ẩn/Hiện */}
-      {toc.showHideButton && (
-        <button
-          style={{
-            backgroundColor: "transparent",
-            color: toc.isHideButton ? toc.hideButtonColor : toc.showButtonColor,
-            border: "none",
-            cursor: "pointer",
-            marginTop: "10px",
-          }}
-          onClick={() => setIsCollapsed(!isCollapsed)}
-        >
-          {isCollapsed ? toc.showButtonName : toc.hideButtonName}
-        </button>
-      )}
 
-      {/* Nút Show All */}
-      {toc.showAllButtonName && (
-        <button
-          style={{
-            backgroundColor: "transparent",
-            color: toc.showAllButtonColor,
-            border: "none",
-            cursor: "pointer",
-            marginLeft: "10px",
-          }}
-        >
-          {toc.showAllButtonName}
-        </button>
-      )}
+        {toc.showAllButtonName && (
+          <button
+            monochrome={true}
+            outline
+            size="slim"
+            className={styles.showAllButton}
+            style={{ color: toc.showAllButtonColor }}
+          >
+
+            {toc.showAllButtonName}
+          </button>
+        )}
+      </div>
     </div>
   );
 };

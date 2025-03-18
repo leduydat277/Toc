@@ -8,26 +8,27 @@ import {
 } from "@shopify/polaris";
 import styles from "./../styles/sticky-right.module.scss";
 import { SaveBar, useAppBridge } from "@shopify/app-bridge-react";
-import { Preview } from "app/components/preview";
+
 import { TOCForm } from "app/components/toc-form";
 import { useSubscribeToAllChanges } from "state/stores/use-save-bar-store";
 import { useTOCStore } from "state/stores";
+import { useNavigate } from "@remix-run/react";
+import { PreviewTOC } from "app/components/preview/Index";
+
+
 
 function Settings() {
     const { hasChanged, setHasChanged } = useSubscribeToAllChanges();
-    const resetState = useTOCStore.getState().resetState
-
-    console.log('hasChanged', hasChanged)
+    const resetState = useTOCStore.getState().resetState;
+    const navigate = useNavigate();
+    console.log("hasChanged", hasChanged);
     const shopify = useAppBridge();
-    const onSave = () => {
-
-    }
+    const onSave = () => { };
     const onDiscard = () => {
-        resetState()
+        resetState();
         setHasChanged(false);
-        shopify.saveBar.hide('my-save-bar')
-
-    }
+        shopify.saveBar.hide("my-save-bar");
+    };
     const SkeletonLabel = (props) => {
         return (
             <Box
@@ -40,24 +41,27 @@ function Settings() {
         );
     };
     if (hasChanged === true) {
-        shopify.saveBar.show('my-save-bar')
+        shopify.saveBar.show("my-save-bar");
     }
+    const handleBack = () => {
+        shopify.saveBar.leaveConfirmation().then(() => {
+            navigate("/app");
+        });
+    };
     return (
         <Page
-            backAction={{ content: "Customize the table of contents", url: "/app" }}
+            backAction={{ content: "Customize the table of contents", onAction: handleBack }}
             title="Customize the table of contents"
         >
-
             <>
                 <SaveBar id="my-save-bar">
                     <button variant="primary" onClick={onSave}></button>
-                    <button onClick={onDiscard} ></button>
+                    <button onClick={onDiscard}></button>
                 </SaveBar>
             </>
             <InlineGrid columns={{ xs: 1, md: "2fr 1fr" }} gap="400">
                 <BlockStack gap="400">
                     <Card roundedAbove="sm">
-
                         <TOCForm />
                     </Card>
                 </BlockStack>
@@ -65,19 +69,7 @@ function Settings() {
                 <BlockStack gap={{ xs: "400", md: "200" }}>
                     <div className={styles.stickyRight}>
                         <Card roundedAbove="sm">
-                            {/* <BlockStack gap="400">
-                                <SkeletonDisplayText size="small" />
-                                <Box border="divider" borderRadius="base" minHeight="2rem" />
-                                <Box>
-                                    <Bleed marginInline={{ xs: 400, sm: 500 }}>
-                                        <Divider />
-                                    </Bleed>
-                                </Box>
-                                <SkeletonLabel />
-                                <Divider />
-                                <SkeletonBodyText />
-                            </BlockStack> */}
-                            <Preview />
+                            <PreviewTOC />
                         </Card>
                         <div className={styles.cardItem}>
                             <Card roundedAbove="sm">

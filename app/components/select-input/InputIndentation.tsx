@@ -17,7 +17,7 @@ export const InputIndentation = () => {
 
     return (
         <Select
-            label="Text alignment"
+            label="Indentation"
             options={options}
             onChange={(selected) => setIsIndentation(selected === 'true')}
             value={isIndentation ? 'true' : 'false'}

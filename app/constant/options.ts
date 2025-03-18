@@ -5,12 +5,12 @@ export const alignmentOptions = [
 ];
 export const numberingOptions = [
   { label: 'numbers', value: 'numbers' },
-  { label: 'dots', value: 'dots' },
+  { label: 'dots', value: 'disc' },
   { label: 'none', value: 'none' },
 ];
 export const sectionLineOptions = [
-  { label: 'Off', value: 'off' },
-  { label: 'On', value: 'on' },
+  { label: 'Off', value: 'false' },
+  { label: 'On', value: 'true' },
 ];
 export const linkHoverStyleOptions = [
   { label: 'None', value: 'none' },

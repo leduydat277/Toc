@@ -6,9 +6,10 @@ import { useTOCStore } from "../../../state/stores";
 export const InputTextAlignment = () => {
     const [setTextAlignment, textAlignment] = useTOCStore((state) => [state.setTextAlignment, state.textAlignment]);
     console.log('textAlignment', textAlignment)
+    // fix
     return (
         <Select
-            label="Text alignment"
+            label="Title alignment"
             options={alignmentOptions}
             onChange={setTextAlignment}
             value={textAlignment}

@@ -1,5 +1,4 @@
 import { Checkbox, Text } from '@shopify/polaris';
-import { useState, useCallback } from 'react';
 import { useTOCStore } from "state/stores";
 export const ToggleButton = () => {
     const [setIsHideButton, isHidebButton] = useTOCStore((state) => [state.setIsHideButton, state.isHideButton]);
