@@ -3,6 +3,7 @@ import { hsbToRgb, rgbToHsb } from 'app/hooks/colorConverter';
 import { Color } from 'app/types/Color';
 import { useState, useCallback } from 'react';
 import { useTOCStore } from 'state/stores';
+import styles from '../../styles/color-picker.module.scss'
 
 export const BorderColor = () => {
 	const [borderColor, setBorderColor] = useTOCStore((state) => [
@@ -33,14 +34,10 @@ export const BorderColor = () => {
 				active={popoverActive}
 				activator={
 					<div
+						className={styles.colorPreview}
 						onClick={togglePopover}
 						style={{
-							width: '36px',
-							height: '36px',
-							borderRadius: '50%',
 							backgroundColor: borderColor,
-							border: '1px solid #ccc',
-							cursor: 'pointer',
 						}}
 					/>
 				}
@@ -52,13 +49,9 @@ export const BorderColor = () => {
 						<ColorPicker onChange={handleColorChange} color={tempColor} fullWidth />
 						<InlineStack gap="150">
 							<div
+								className={styles.colorPreviewSmall}
 								style={{
-									width: '32px',
-									height: '32px',
-									borderRadius: '20%',
 									backgroundColor: borderColor,
-									border: '1px solid #ccc',
-									cursor: 'pointer',
 								}}
 							/>
 							<TextField

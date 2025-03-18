@@ -1,13 +1,22 @@
-import { BlockStack, Card, ColorPicker, InlineStack, Popover, TextField, Text } from '@shopify/polaris';
-import { hsbToRgb, rgbToHsb } from 'app/hooks/colorConverter';
-import { Color } from 'app/types/Color';
-import { useState, useCallback } from 'react';
-import { useTOCStore } from 'state/stores';
+import {
+    BlockStack,
+    Card,
+    ColorPicker,
+    InlineStack,
+    Popover,
+    TextField,
+    Text,
+} from "@shopify/polaris";
+import { hsbToRgb, rgbToHsb } from "app/hooks/colorConverter";
+import { Color } from "app/types/Color";
+import { useState, useCallback } from "react";
+import { useTOCStore } from "state/stores";
+import styles from "../../styles/color-picker.module.scss";
 
 export const SectionLine = () => {
     const [sectionLineColor, setSectionLineColor] = useTOCStore((state) => [
         state.sectionLineColor,
-        state.setSectionLineColor
+        state.setSectionLineColor,
     ]);
 
     const [popoverActive, setPopoverActive] = useState(false);
@@ -26,21 +35,17 @@ export const SectionLine = () => {
         setSectionLineColor(value);
         setTempColor(rgbToHsb(value));
     };
-    console.log('setSectionLineColor', sectionLineColor)
+    console.log("setSectionLineColor", sectionLineColor);
     return (
         <InlineStack gap="200">
             <Popover
                 active={popoverActive}
                 activator={
                     <div
+                        className={styles.colorPreview}
                         onClick={togglePopover}
                         style={{
-                            width: '36px',
-                            height: '36px',
-                            borderRadius: '50%',
                             backgroundColor: sectionLineColor,
-                            border: '1px solid #ccc',
-                            cursor: 'pointer',
                         }}
                     />
                 }
@@ -49,21 +54,21 @@ export const SectionLine = () => {
             >
                 <Card>
                     <BlockStack gap="400">
-                        <ColorPicker onChange={handleColorChange} color={tempColor} fullWidth />
+                        <ColorPicker
+                            onChange={handleColorChange}
+                            color={tempColor}
+                            fullWidth
+                        />
                         <InlineStack gap="150">
                             <div
+                                className={styles.colorPreviewSmall}
                                 style={{
-                                    width: '32px',
-                                    height: '32px',
-                                    borderRadius: '20%',
                                     backgroundColor: sectionLineColor,
-                                    border: '1px solid #ccc',
-                                    cursor: 'pointer',
                                 }}
                             />
                             <TextField
                                 label={null}
-                                autoComplete='off'
+                                autoComplete="off"
                                 value={sectionLineColor}
                                 onChange={handleInputChange}
                             />
@@ -72,8 +77,12 @@ export const SectionLine = () => {
                 </Card>
             </Popover>
             <BlockStack gap="025">
-                <Text variant="headingSm" as="h6">Section Line</Text>
-                <Text variant="bodyMd" as="p">{sectionLineColor}</Text>
+                <Text variant="headingSm" as="h6">
+                    Section Line
+                </Text>
+                <Text variant="bodyMd" as="p">
+                    {sectionLineColor}
+                </Text>
             </BlockStack>
         </InlineStack>
     );
