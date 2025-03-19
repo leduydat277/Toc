@@ -10,10 +10,7 @@ export class TableOfContentsRepositoryImpl implements TableOfContentsRepository 
   }
 
   async update(id: string, data: Partial<TableOfContents>): Promise<TableOfContents | null> {
-
-    console.log("data", data);
     const rs = await TableOfContentsModel.findByIdAndUpdate(id, { ...data }, { new: true });
-
     return rs;
   }
 }

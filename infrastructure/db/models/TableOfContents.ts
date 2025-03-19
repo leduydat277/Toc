@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
-import { TableOfContents } from "~/../core/entities/TableOfContents";
+import mongoose from "mongoose";
 
+const { Schema, model, models } = mongoose;
 const PaddingSchema = new Schema({
     top: { type: Number, default: 0 },
     bottom: { type: Number, default: 0 },
@@ -8,10 +8,8 @@ const PaddingSchema = new Schema({
     right: { type: Number, default: 0 },
 });
 
-const TableOfContentsSchema = new Schema<TableOfContents>({
-    titleSettings: {
-        content: { type: String, default: "" },
-    },
+const TableOfContentsSchema = new Schema({
+    title: { type: String, default: "" },
     textAlignment: {
         alignment: {
             type: String,
@@ -20,18 +18,25 @@ const TableOfContentsSchema = new Schema<TableOfContents>({
         },
     },
     headingSettings: {
-        tag: { type: [String], default: ["h1", "h2", "h3", "h4", "h5", "h6"] },
-        numbering: { type: String, enum: ["numbers", "none"], default: "numbers" },
-        sectionLine: { type: Boolean, default: true },
-        indentation: { type: Boolean, default: false },
+        tag: {
+            type: [String],
+            enum: ["h1", "h2", "h3", "h4", "h5", "h6"],
+            default: ["h1", "h2", "h3", "h4", "h5", "h6"]
+        },
+        numbering: {
+            type: String,
+            enum: ["numbers", "none", "bullets", "disc"],
+            default: "numbers"
+        },
+        isSectionLine: { type: Boolean, default: true },
+        isIndentation: { type: Boolean, default: false },
         fontSize: { type: Number, default: 14 },
         color: { type: String, default: "#000000" },
         padding: PaddingSchema,
     },
     appearanceSettings: {
-        scrollAnimation: { type: Boolean, default: false },
+        isScrollAnimation: { type: Boolean, default: false },
         scrollOffset: { type: Number, default: 0 },
-        padding: PaddingSchema,
         maxWidth: { type: Number, default: 0 },
         displayAlignment: {
             type: String,
@@ -40,18 +45,25 @@ const TableOfContentsSchema = new Schema<TableOfContents>({
         },
     },
     buttonSettings: {
-        showHideButton: { type: Boolean, default: true },
-        hideButtonName: { type: String, default: "hide" },
-        showButtonName: { type: String, default: "show" },
+        isHideButton: { type: Boolean, default: true },
+        hideButtonName: { type: String, default: "Hide" },
+        hideButtonColor: { type: String, default: "#000000" },
+
+        showButtonName: { type: String, default: "Show" },
+        showButtonColor: { type: String, default: "#FFFFFF" },
+
         initialDisplayLines: { type: Number, default: null },
-        showAllButtonName: { type: String, default: "show all" },
+
+        showAllButtonName: { type: String, default: "Show All" },
+        showAllButtonColor: { type: String, default: "#FF0000" },
     },
     linkSettings: {
-        customLinkHover: { type: Boolean, default: false },
+        isCustomLinkHover: { type: Boolean, default: false },
+        linkColor: { type: String, default: "#0000FF" },
+        hoverColor: { type: String, default: "#FF0000" },
     },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
 });
 
-export const TableOfContentsModel = model<TableOfContents>(
-    "TableOfContents",
-    TableOfContentsSchema,
-);
+export const TableOfContentsModel = models.TableOfContents || model("TableOfContents", TableOfContentsSchema);
