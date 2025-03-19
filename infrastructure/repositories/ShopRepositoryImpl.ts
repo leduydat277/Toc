@@ -3,6 +3,9 @@ import { ShopifyShop } from "core/entities/Shop";
 import { ShopModel } from "infrastructure/db/models/Shop";
 
 export class ShopRepositoryImpl implements ShopRepository {
+  async createShop(data: ShopifyShop): Promise<void> {
+    await ShopModel.create(data);
+  }
   async getShops(): Promise<ShopifyShop[]> {
     return <ShopifyShop[]>await ShopModel.find();
   }

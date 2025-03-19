@@ -12,6 +12,7 @@ export interface ShopifyShop {
   currencyCode: string;
   enabledPresentmentCurrencies: string[];
   createdAt: string;
+  createShop(data: ShopifyShop): void;
   getShops(): ShopifyShop[];
   getShop(): ShopifyShop;
   updateShop(data: Partial<ShopifyShop>): void;
