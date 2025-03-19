@@ -52,6 +52,7 @@ export interface LinkSettings {
 
 export interface TableOfContents {
     id: string;
+    shopId: string;
     title: string;
     textAlignment: TextAlignment;
     headingSettings: HeadingSettings;
@@ -62,6 +63,7 @@ export interface TableOfContents {
     updatedAt: Date;
 
     // methods
+    createTableOfContents(data: TableOfContents): Promise<void>;
     getTableOfContents(): Promise<TableOfContents>;
     updateTableOfContents(data: Partial<TableOfContents>): Promise<void>;
 }

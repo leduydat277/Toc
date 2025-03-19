@@ -22,6 +22,7 @@ export const useSettingsLogic = () => {
         encType: "application/json",
       }
     );
+    shopify.saveBar.hide("my-save-bar");
   };
 
   const onDiscard = () => {

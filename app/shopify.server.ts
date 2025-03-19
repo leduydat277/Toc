@@ -5,9 +5,12 @@ import {
   shopifyApp,
 } from "@shopify/shopify-app-remix/server";
 import { PrismaSessionStorage } from "@shopify/shopify-app-session-storage-prisma";
-import { RedisClientOptions, createClient } from 'redis';
+import { RedisClientOptions, createClient } from "redis";
 import { RedisSessionStorage } from "@shopify/shopify-app-session-storage-redis";
-const client = createClient({ url: process.env.REDIS_URL } as RedisClientOptions);
+import { createShop } from "./utils/createShop";
+const client = createClient({
+  url: process.env.REDIS_URL,
+} as RedisClientOptions);
 const shopify = shopifyApp({
   apiKey: process.env.SHOPIFY_API_KEY,
   apiSecretKey: process.env.SHOPIFY_API_SECRET || "",
@@ -17,6 +20,12 @@ const shopify = shopifyApp({
   authPathPrefix: "/auth",
   sessionStorage: new RedisSessionStorage(client),
   distribution: AppDistribution.AppStore,
+  hooks: {
+    afterAuth: async ({ session }) => {
+      await shopify.registerWebhooks({ session });
+      await createShop({ sest: session });
+    },
+  },
   future: {
     unstable_newEmbeddedAuthStrategy: true,
     removeRest: true,

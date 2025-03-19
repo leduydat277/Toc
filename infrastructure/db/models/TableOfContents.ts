@@ -10,6 +10,7 @@ const PaddingSchema = new Schema({
 
 const TableOfContentsSchema = new Schema({
     title: { type: String, default: "" },
+    shopId: { type: String, required: true },
     textAlignment: {
         alignment: {
             type: String,

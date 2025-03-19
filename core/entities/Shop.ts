@@ -1,17 +1,7 @@
 export interface ShopifyShop {
-  id: string;
+  shopId: string;
   name: string;
-  email: string;
-  myshopifyDomain: string;
-  primaryDomain: {
-    url: string;
-  };
-  plan: {
-    displayName: string;
-  };
-  currencyCode: string;
-  enabledPresentmentCurrencies: string[];
-  createdAt: string;
+  accessToken: string;
   createShop(data: ShopifyShop): void;
   getShops(): ShopifyShop[];
   getShop(): ShopifyShop;

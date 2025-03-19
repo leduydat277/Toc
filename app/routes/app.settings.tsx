@@ -18,17 +18,20 @@ import { useEffect } from "react";
 import { getTableOfContents, updateTableOfContents } from "app/services/tableOfContentsService";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-    await authenticate.admin(request);
-    const _id = "67d9262a905c285fbea3b899";
-    const tableOfContents = await getTableOfContents(_id);
-    return tableOfContents;
+    const { admin, session } = await authenticate.admin(request);
+    const shopInfo = {
+        shop: session.shop,
+        id: session.id,
+    };
+    const tableOfContents = await getTableOfContents(shopInfo.id);
+    return { tableOfContents, shopInfo };
 };
 
 export const action = async ({ request }: LoaderFunctionArgs) => {
+    const { session } = await authenticate.admin(request)
     const updateData = await request.json();
     const data = JSON.parse(updateData.tableOfContents)
-    const _id = "67d9262a905c285fbea3b899";
-    const tableOfContents = await updateTableOfContents(_id, data);
+    const tableOfContents = await updateTableOfContents(session.id, data);
     return json({ success: true });
 };
 
